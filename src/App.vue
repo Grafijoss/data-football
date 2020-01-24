@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <h1> {{ msg }} </h1>
+    <img src="./assets/logo.png" />
+    <h1>{{ msg }}</h1>
   </div>
 </template>
 
@@ -10,7 +10,7 @@ export default {
   name: 'app',
   data () {
     return {
-      msg: 'aja'
+      msg: 'Hola Vue!'
     }
   }
 }
