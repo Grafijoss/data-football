@@ -7,14 +7,14 @@
 
 <script>
 export default {
-  name: 'app',
-  data () {
+  name: "app",
+  data() {
     return {
-      msg: 'Hola Vue!'
-    }
+      msg: "Hola mayra ya funciono el eslint"
+    };
   }
-}
+};
 </script>
 
-<style lang="scss">
+<style lang='scss'>
 </style>
