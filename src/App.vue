@@ -13,9 +13,7 @@
           p
             small {{ searchMessage }}
 
-      .container.results
-        .columns
-          .column(v-for="c in colleges") {{ c.school }} - {{ c.mascot}}
+      .box(v-for="c in colleges") {{ c.school }} - {{ c.mascot}}
 </template>
 
 <script>
