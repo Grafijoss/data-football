@@ -15,7 +15,7 @@
 
       .container.results
         .columns
-          .column(v-for="t in tracks") {{ t.school }} - {{ t.mascot}}
+          .column(v-for="c in colleges") {{ c.school }} - {{ c.mascot}}
 </template>
 
 <script>
@@ -33,13 +33,13 @@ export default {
   data() {
     return {
       searchQuery: "",
-      tracks: []
+      colleges: []
     };
   },
 
   computed: {
     searchMessage() {
-      return `Encontrados: ${this.tracks.length}`;
+      return `Encontrados: ${this.colleges.length}`;
     }
   },
 
@@ -47,9 +47,9 @@ export default {
     search() {
       console.log(collegesService);
       console.log("aqui entra");
-      collegesService.search(this.searchQuery).then(res => {
+      collegesService.getAll(this.searchQuery).then(res => {
         console.log(res);
-        this.tracks = res.data;
+        this.colleges = res;
       });
     }
   }
