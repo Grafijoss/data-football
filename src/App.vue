@@ -20,29 +20,29 @@
 
 <script>
 const tracks = [
-  { name: 'Muchacha', artist: 'Luis Alberto Spinetta' },
-  { name: 'Hoy aca en el baile', artist: 'El Pepo' },
-  { name: 'I was made for loving you', artist: 'Kiss' }
+  { name: "Muchacha", artist: "Luis Alberto Spinetta" },
+  { name: "Hoy aca en el baile", artist: "El Pepo" },
+  { name: "I was made for loving you", artist: "Kiss" }
 ];
 
 export default {
-  name: 'app',
+  name: "app",
 
-  data () {
+  data() {
     return {
-      searchQuery: '',
+      searchQuery: "",
       tracks: []
     };
   },
 
   computed: {
-    searchMessage () {
+    searchMessage() {
       return `Encontrados: ${this.tracks.length}`;
     }
   },
 
   methods: {
-    search () {
+    search() {
       this.tracks = tracks;
     }
   }
@@ -50,9 +50,9 @@ export default {
 </script>
 
 <style lang="scss">
-  @import './scss/main.scss';
+@import "./scss/main.scss";
 
-  .results {
-    margin-top: 50px;
-  }
+.results {
+  margin-top: 50px;
+}
 </style>
