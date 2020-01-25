@@ -15,15 +15,17 @@
 
       .container.results
         .columns
-          .column(v-for="t in tracks") {{ t.name }} - {{ t.artist}}
+          .column(v-for="t in tracks") {{ t.school }} - {{ t.mascot}}
 </template>
 
 <script>
-const tracks = [
-  { name: "Muchacha", artist: "Luis Alberto Spinetta" },
-  { name: "Hoy aca en el baile", artist: "El Pepo" },
-  { name: "I was made for loving you", artist: "Kiss" }
-];
+import collegesService from "./services/colleges";
+
+// const tracks = [
+//   { name: "Muchacha", artist: "Luis Alberto Spinetta" },
+//   { name: "Hoy aca en el baile", artist: "El Pepo" },
+//   { name: "I was made for loving you", artist: "Kiss" }
+// ];
 
 export default {
   name: "app",
@@ -43,7 +45,12 @@ export default {
 
   methods: {
     search() {
-      this.tracks = tracks;
+      console.log(collegesService);
+      console.log("aqui entra");
+      collegesService.search(this.searchQuery).then(res => {
+        console.log(res);
+        this.tracks = res.data;
+      });
     }
   }
 };

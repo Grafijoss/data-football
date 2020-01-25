@@ -1,6 +1,5 @@
-
 const configService = {
-	collegefootballdata: 'https://api.collegefootballdata.com/teams'
-}
+	collegeFootballData: 'https://api.collegefootballdata.com'
+};
 
-export default configService
+export default configService;
