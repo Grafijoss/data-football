@@ -4,14 +4,15 @@
 		article.media.box
 			figure.media-left
 				p.image.is-64x64
-					template(v-if="this.thereIsImage && college.logos")
+					template(v-if="!!college.logos && !!college.logos.length")
 						img(
 							:src="college.logos[0]"
 							ref="img_item"
 						)
-					template("v-else")
+					template(v-else)
 						.noimg 
-							strong {{ college.abbreviation }}
+							strong {{ college.school.substr(0,1) }}
+							strong {{ college.school.substr(1,1) }}
 				.wrrp-colors-item
 					.color.color1(
 						:class="{'complete': !college.alt_color}"
@@ -22,9 +23,10 @@
 							:style="{background: college.alt_color }"
 						)
 			.media-content
-				.content
+				.contentz
 					p 
-						strong {{ college.school }} <br/>
+						strong {{ college.school }} 
+						small esta es la imagen {{ thereIsImage }} <br/> 
 						|Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
 				nav.level.is-mobile
 					.level-left
@@ -40,32 +42,25 @@ export default {
   props: ["college"],
   data() {
     return {
-      thereIsImage: true,
+      thereIsImage: 0,
       searchQuery: "",
       colleges: []
     };
   },
-  computed: {
-    // thereIsImage() {
-    //   return this.$refs.img_item.offsetHeight === 64;
-    // }
-  },
   mounted() {
-    // console.log("estas sn las referencias sdedrtfgdfg  sdfsfasfasf");
-    // console.log(!!this.$refs.img_item);
-    this.thereIsImage =
-      !!this.$refs.img_item && this.$refs.img_item.offsetHeight;
-    // this.thereIsImage = this.$refs.img_item.offsetHeight === 64;
+    let existImage = !!this.$refs.img_item;
+    this.thereIsImage = existImage ? this.$refs.img_item.offsetHeight : 0;
   },
   methods: {
-    search() {}
+    // existImage() {
+    //   let existImage = !!this.$refs.img_item;
+    //   return existImage ? this.$refs.img_item.offsetHeight === 64 : false;
+    // }
   }
 };
 </script>
 
 <style lang="scss">
-// @import "../scss/main.scss";
-
 .wrrp-colors-item {
   border-top: solid 1px #ccc;
   height: 20px;
@@ -98,12 +93,18 @@ export default {
     }
   }
 }
-.noimg {
-  background: #ccc;
-  height: 64px;
-  line-height: 64px;
-  text-align: center;
-  text-transform: uppercase;
-  width: 64px;
+.image {
+  position: relative;
+  .noimg {
+    background: #ccc;
+    height: 64px;
+    left: 0;
+    line-height: 64px;
+    position: absolute;
+    text-align: center;
+    text-transform: uppercase;
+    top: 0;
+    width: 64px;
+  }
 }
 </style>

@@ -6,7 +6,8 @@
 					span F
 			.column.is-1.colssearch.filter
 				.dropdown( 
-					:class="{'is-active': isActiveFilter}" 
+					:class="{'is-active': isActiveFilter}"
+					ref="filter_dropdown"
 				)
 					.dropdown-trigger(
 						v-on:click="openFilter"
@@ -28,6 +29,11 @@
 					placeholder="Search college",
 					v-model="searchQuery"
 				)
+				.delete-query(
+					v-if="!!searchQuery.length"
+					v-on:click="clearQuery()"
+				)
+					i.icon-cross
 			.column.is-1.colssearch
 </template>
 
@@ -54,25 +60,36 @@ export default {
   },
   watch: {
     searchQuery(val) {
-      console.log("este es el val del buscador");
-      console.log(val);
-      // this.$emit("input", val);
       this.getFilteredItems(val);
     }
   },
-  created() {
-    // this.collegesPrueba.push(this.colleges[0]);
+  mounted() {
+    document.addEventListener("click", this.fnClick, false);
+  },
+  beforeDestroy() {
+    document.removeEventListener("keydown", this.fnClick, false);
   },
   computed: {
     searchMessage() {
       return `Encontrados: ${this.colleges.length}`;
     }
   },
-
   methods: {
+    clearQuery() {
+      this.searchQuery = "";
+    },
+    fnClick(clickElement) {
+      let el = clickElement.toElement;
+      // const _this = this;
+      const wrrpdrp = this.$refs.filter_dropdown;
+      while (el.tagName !== "BODY") {
+        el = el.parentNode;
+        if (!el) return (this.isActiveFilter = false);
+        if (!!el && el === wrrpdrp) return false;
+        if (el.tagName === "BODY") this.isActiveFilter = false;
+      }
+    },
     checkFilter(index) {
-      console.log("filtrooo");
-      console.log(this.filter[index].value);
       this.filter[index].check = !this.filter[index].check;
       this.isActiveFilter = false;
       this.getFilteredItems(this.searchQuery);
@@ -93,7 +110,6 @@ export default {
       return this.filter.length === filters.length;
     },
     getFilteredItems(match) {
-      console.log("aquii");
       let fiterColleges = this.colleges.filter(college => {
         return (
           college.school
@@ -117,11 +133,6 @@ export default {
 }
 
 .colssearch {
-  &.colsearch {
-    // input {
-    //   width: 50px;
-    // }
-  }
   &.logo {
     font-size: 36px;
     line-height: 78px;
@@ -161,6 +172,21 @@ export default {
           }
         }
       }
+    }
+  }
+  &.colsearch {
+    position: relative;
+    .delete-query {
+      color: #ccc;
+      cursor: pointer;
+      height: 50px;
+      line-height: 50px;
+      position: absolute;
+      right: 14px;
+      text-align: center;
+      transform: translateY(-50%);
+      top: 50%;
+      width: 50px;
     }
   }
 }
