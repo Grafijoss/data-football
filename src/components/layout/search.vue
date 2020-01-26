@@ -5,15 +5,23 @@
 				strong D
 					span F
 			.column.is-1.colssearch.filter
-				.dropdown
-					.dropdown-trigger
+				.dropdown( 
+					:class="{'is-active': isActiveFilter}" 
+				)
+					.dropdown-trigger(
+						v-on:click="openFilter"
+					)
 						.button.is-info
 							span.icon.is-small
 								i.icon-filter
 					.dropdown-menu
 						.dropdown-content
-							a.dropdown-item division
-							a.dropdown-item.is-active conference
+							a.dropdown-item(
+								v-for="(f, index) in filter"
+								:class="{'is-active': f.check}" 
+								:key="f.value"
+								v-on:click="checkFilter(index)"
+							) {{ f.value }}
 			.column.is-9.colssearch.colsearch
 				input.input.is-large(
 					type="text",
@@ -30,7 +38,18 @@ export default {
   data() {
     return {
       searchQuery: "",
-      filteredItems: []
+      filteredItems: [],
+      isActiveFilter: false,
+      filter: [
+        {
+          value: "division",
+          check: false
+        },
+        {
+          value: "conference",
+          check: false
+        }
+      ]
     };
   },
   watch: {
@@ -51,6 +70,28 @@ export default {
   },
 
   methods: {
+    checkFilter(index) {
+      console.log("filtrooo");
+      console.log(this.filter[index].value);
+      this.filter[index].check = !this.filter[index].check;
+      this.isActiveFilter = false;
+      this.getFilteredItems(this.searchQuery);
+    },
+    openFilter() {
+      this.isActiveFilter = true;
+    },
+    validateFilter(item) {
+      let filters = [];
+      this.filter.forEach(f => {
+        if (!f.check) {
+          filters.push(f.value);
+        } else {
+          let exist = !!item[f.value];
+          if (exist) filters.push(f.value);
+        }
+      });
+      return this.filter.length === filters.length;
+    },
     getFilteredItems(match) {
       console.log("aquii");
       let fiterColleges = this.colleges.filter(college => {
@@ -58,7 +99,7 @@ export default {
           college.school
             .toString()
             .toLowerCase()
-            .indexOf(match.toLowerCase()) >= 0
+            .indexOf(match.toLowerCase()) >= 0 && this.validateFilter(college)
         );
       });
       this.$emit("input", fiterColleges);
