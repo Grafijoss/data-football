@@ -1,29 +1,18 @@
 <template lang="pug">
-  #app
-    section.section
-      nav.nav.has-shadow
-        .container.is-fluid
-          input.input.is-large(
-            type="text",
-            placeholder="Buscar canciones",
-            v-model="searchQuery"
-          )
-          a.button.is-info.is-large(@click="search") Buscar
-          a.button.is-danger.is-large &times;
-          p
-            small {{ searchMessage }}
-
-      .box(v-for="c in colleges") {{ c.school }} - {{ c.mascot}}
+	#app
+		df-search(
+			v-model="collegesFiltered"
+			:colleges="colleges"
+		)
+		df-school-list(
+			:colleges="!!collegesFiltered.length ? collegesFiltered : colleges"
+		)
 </template>
 
 <script>
 import collegesService from "./services/colleges";
-
-// const tracks = [
-//   { name: "Muchacha", artist: "Luis Alberto Spinetta" },
-//   { name: "Hoy aca en el baile", artist: "El Pepo" },
-//   { name: "I was made for loving you", artist: "Kiss" }
-// ];
+import DfSearch from "./components/layout/search";
+import DfSchoolList from "./components/school-list";
 
 export default {
   name: "app",
@@ -31,21 +20,27 @@ export default {
   data() {
     return {
       searchQuery: "",
-      colleges: []
+      colleges: [],
+      collegesFiltered: []
     };
   },
-
+  components: {
+    DfSearch,
+    DfSchoolList
+  },
   computed: {
     searchMessage() {
       return `Encontrados: ${this.colleges.length}`;
     }
   },
-
+  created() {
+    this.getAllsColleges();
+  },
   methods: {
-    search() {
+    getAllsColleges() {
       console.log(collegesService);
       console.log("aqui entra");
-      collegesService.getAll(this.searchQuery).then(res => {
+      collegesService.getAll().then(res => {
         console.log(res);
         this.colleges = res;
       });
@@ -56,6 +51,10 @@ export default {
 
 <style lang="scss">
 @import "./scss/main.scss";
+@import "./scss/dficonsset.scss";
+#app {
+  padding: 10px;
+}
 
 .results {
   margin-top: 50px;
