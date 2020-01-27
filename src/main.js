@@ -7,7 +7,7 @@ import EventBus from "@/plugins/event-bus";
 import store from "./store";
 
 import routes from "@/routes";
-const router = new VueRouter({ routes });
+const router = new VueRouter({ routes, mode: "history" });
 
 Vue.use(VueRouter);
 Vue.use(EventBus);
