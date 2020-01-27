@@ -1,12 +1,6 @@
 <template lang="pug">
 	#app
-		df-search(
-			v-model="collegesFiltered"
-			:colleges="colleges"
-		)
-		df-school-list(
-			:colleges="collegesFiltered.filter"
-		)
+		router-view
 		template(v-if="showModal")
 			new-modal(
 				:typeModal="typeModal"
@@ -17,35 +11,26 @@
 <script>
 import store from "store";
 import collegesService from "./services/colleges";
-import DfSearch from "./components/layout/search";
-import DfSchoolList from "./components/school-list";
+// import DfSearch from "./components/layout/search";
+// import DfSchoolList from "./components/school-list";
 
 export default {
   name: "app",
 
   data() {
     return {
-      searchQuery: "",
-      colleges: [],
-      collegesFiltered: { searchQuery: "", collegesFiltered: [] },
+      // searchQuery: "",
+      // colleges: [],
+      // collegesFiltered: { searchQuery: "", collegesFiltered: [] },
       showModal: false,
       infoModalSchool: null,
       typeModal: "add"
     };
   },
-  components: {
-    DfSearch,
-    DfSchoolList
-  },
+  components: {},
   computed: {
-    searchMessage() {
-      return `Encontrados: ${this.colleges.length}`;
-    },
-    nameQuery() {
-      return this.$store.state.searchQuery;
-    },
-    favorites() {
-      return this.$store.state.favorites;
+    collegesApp() {
+      return this.$store.state.colleges;
     }
   },
   created() {
@@ -53,8 +38,6 @@ export default {
     const favoritesExist = favorites && !!favorites.length;
     if (favoritesExist) this.$store.commit("setfavorites", { favorites });
     this.getAllsColleges();
-    console.log("el storeee");
-    console.log(this.$store.state.searchQuery);
     this.$bus.$on("open-modal-favorite", school => {
       this.showModal = true;
       this.typeModal = "add";
@@ -74,12 +57,11 @@ export default {
     getAllsColleges() {
       const colleges = store.get("colleges") && !!store.get("colleges").length;
       if (colleges) {
-        this.colleges = store.get("colleges");
+        this.$store.commit("setColleges", { colleges: store.get("colleges") });
       } else {
         collegesService.getAll().then(res => {
-          // this.colleges = res;
           store.set("colleges", res);
-          this.colleges = res;
+          this.$store.commit("setColleges", { colleges: res });
         });
       }
     }
