@@ -4,6 +4,7 @@
 			v-model="collegesFiltered"
 			:colleges="colleges"
 		)
+		h1 {{ nameQuery }}
 		template(v-if="!!collegesFiltered.searchQuery.length")
 			df-school-list(
 				:colleges="collegesFiltered.filter"
@@ -39,10 +40,15 @@ export default {
   computed: {
     searchMessage() {
       return `Encontrados: ${this.colleges.length}`;
+    },
+    nameQuery() {
+      return this.$store.state.searchQuery;
     }
   },
   created() {
     this.getAllsColleges();
+    console.log("el storeee");
+    console.log(this.$store.state.searchQuery);
   },
   methods: {
     getAllsColleges() {
