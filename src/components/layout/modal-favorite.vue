@@ -1,0 +1,115 @@
+<template lang="pug">
+	.modal
+		.modal-background
+		.modal-content.modal-nc
+			.modal-card
+				header.modal-card-head
+					p.modal-card-title {{ college.school }} 
+					button.delete(
+						v-on:click="closeModal()"
+					)
+				.modal-card-body
+					article.media
+						figure.media-left
+							p.image.is-64x64
+								img(
+							:src="college.logos[0]"
+							ref="img_item"
+						)
+						.media-content
+							.field
+								p.control
+									template(
+										v-if="typeModal === 'add'"
+									)
+										textarea.textarea(
+											placeholder="Add a comment..."
+											v-model="comment"
+										)
+									template(v-else)
+										p.title.is-5 {{ college.comment }}
+				.modal-card-foot
+					div.button.is-success(
+						v-on:click="addFavorite()"
+					) {{ typeModal === 'add' ?  'Add to favorites' : 'Remove to favorites'}}
+					div.button(
+						v-on:click="closeModal()"
+					) Cancel
+</template>
+
+<script>
+import store from "store";
+
+export default {
+  name: "modal-new",
+  props: ["college", "typeModal"],
+  data() {
+    return {
+      comment: ""
+    };
+  },
+  watch: {},
+  created() {
+    const comment = !!this.college.comment;
+    this.comment = comment ? this.college.comment : "";
+  },
+  mounted() {},
+  beforeDestroy() {},
+  computed: {
+    favorites() {
+      return this.$store.state.favorites;
+    }
+  },
+  methods: {
+    isFavorite(college) {
+      const favorites = this.favorites;
+      const favoritesExist = favorites && !!favorites.length;
+      const ifExist = item => item.id === college.id;
+      let existItem = null;
+      if (favoritesExist) {
+        existItem = favorites.findIndex(ifExist);
+      } else {
+        return false;
+      }
+      return {
+        exist: existItem !== -1,
+        index: existItem
+      };
+    },
+    closeModal() {
+      this.$bus.$emit("close-modal-favorite");
+    },
+    addFavorite() {
+      let favorites = [];
+      if (this.isFavorite(this.college).exist) {
+        console.log("entro aquiii");
+        console.log(this.isFavorite(this.college).index);
+        let stateFavorites = JSON.parse(JSON.stringify(this.favorites));
+        console.log(stateFavorites);
+        stateFavorites.splice(this.isFavorite(this.college).index, 1);
+        favorites = stateFavorites;
+        console.log(favorites);
+      } else {
+        let newFavorite = JSON.parse(JSON.stringify(this.college));
+        newFavorite["comment"] = this.comment;
+        favorites.push(newFavorite);
+      }
+      store.set("favorites", favorites);
+      this.$store.commit("setfavorites", { favorites });
+      this.closeModal();
+    }
+  }
+};
+</script>
+
+<style lang="scss">
+.modal {
+  display: block;
+  .modal-nc {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+</style>

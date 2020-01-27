@@ -6,11 +6,15 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
 	state: {
 		searchQuery: "aja",
-		schools: []
+		schools: [],
+		favorites: []
 	},
 	mutations: {
 		changeSearch(state, payload = {}) {
 			state.searchQuery = payload.search
+		},
+		setfavorites(state, payload = []) {
+			state.favorites = payload.favorites
 		}
 	}
 })

@@ -4,7 +4,6 @@
 			v-model="collegesFiltered"
 			:colleges="colleges"
 		)
-		h1 {{ nameQuery }}
 		template(v-if="!!collegesFiltered.searchQuery.length")
 			df-school-list(
 				:colleges="collegesFiltered.filter"
@@ -13,12 +12,15 @@
 			df-school-list(
 				:colleges="colleges"
 			)
-		//- df-school-list(
-		//- 	:colleges="!!collegesFiltered.searchQuery.length && !!collegesFiltered.filter.length ? collegesFiltered.filter : colleges"
-		//- )
+		template(v-if="showModal")
+			new-modal(
+				:typeModal="typeModal"
+				:college="infoModalSchool"
+			)
 </template>
 
 <script>
+import store from "store";
 import collegesService from "./services/colleges";
 import DfSearch from "./components/layout/search";
 import DfSchoolList from "./components/school-list";
@@ -30,7 +32,10 @@ export default {
     return {
       searchQuery: "",
       colleges: [],
-      collegesFiltered: { searchQuery: "", collegesFiltered: [] }
+      collegesFiltered: { searchQuery: "", collegesFiltered: [] },
+      showModal: false,
+      infoModalSchool: null,
+      typeModal: "add"
     };
   },
   components: {
@@ -43,21 +48,45 @@ export default {
     },
     nameQuery() {
       return this.$store.state.searchQuery;
+    },
+    favorites() {
+      return this.$store.state.favorites;
     }
   },
   created() {
+    const favorites = store.get("favorites");
+    const favoritesExist = favorites && !!favorites.length;
+    if (favoritesExist) this.$store.commit("setfavorites", { favorites });
     this.getAllsColleges();
     console.log("el storeee");
     console.log(this.$store.state.searchQuery);
+    this.$bus.$on("open-modal-favorite", school => {
+      this.showModal = true;
+      this.typeModal = "add";
+      this.infoModalSchool = school;
+    });
+    this.$bus.$on("open-modal-delete", school => {
+      this.showModal = true;
+      this.typeModal = "delete";
+      this.infoModalSchool = school;
+    });
+    this.$bus.$on("close-modal-favorite", () => {
+      this.showModal = false;
+      this.infoModalSchool = null;
+    });
   },
   methods: {
     getAllsColleges() {
-      console.log(collegesService);
-      console.log("aqui entra");
-      collegesService.getAll().then(res => {
-        console.log(res);
-        this.colleges = res;
-      });
+      const colleges = store.get("colleges") && !!store.get("colleges").length;
+      if (colleges) {
+        this.colleges = store.get("colleges");
+      } else {
+        collegesService.getAll().then(res => {
+          // this.colleges = res;
+          store.set("colleges", res);
+          this.colleges = res;
+        });
+      }
     }
   }
 };

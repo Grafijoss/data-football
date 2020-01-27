@@ -1,10 +1,12 @@
 import Vue from "vue";
 import App from "@/App.vue";
+import ModalNew from "@/components/layout/modal-favorite.vue";
 
 import EventBus from '@/plugins/event-bus'
 import store from './store'
 
 Vue.use(EventBus)
+Vue.component('new-modal', ModalNew)
 
 new Vue({
 	el: "#app",
