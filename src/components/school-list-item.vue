@@ -32,7 +32,9 @@
 					.level-left
 						.level-item
 							span.icon.is-small
-								i.icon-heart
+								i.icon-heart(
+									v-on:click="favoriteFn(college)"
+								)
 
 </template>
 
@@ -52,6 +54,11 @@ export default {
     this.thereIsImage = existImage ? this.$refs.img_item.offsetHeight : 0;
   },
   methods: {
+    favoriteFn(item) {
+      console.log("favoriteee");
+      console.log(item);
+      this.$bus.$emit("open-modal-favorite", item);
+    }
     // existImage() {
     //   let existImage = !!this.$refs.img_item;
     //   return existImage ? this.$refs.img_item.offsetHeight === 64 : false;
