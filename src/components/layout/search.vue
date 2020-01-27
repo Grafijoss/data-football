@@ -35,7 +35,9 @@
 				)
 					i.icon-cross
 			.column.is-1.colssearch.colfavorites
-				.bt-favorites
+				.bt-favorites(
+						:class="favorites.length > 0 ? 'active' : ''"
+					)
 					i.iconfavorite(
 						:class="favorites.length > 0 ? 'icon-heart' : 'icon-heart-broken'"
 					)
@@ -205,8 +207,9 @@ export default {
       position: absolute;
       top: 50%;
       transform: translate(-50%, -50%);
-      .icon-heart {
+      &.active {
         color: #00d1b2;
+        cursor: pointer;
       }
     }
     .wrrp-num-favorites {
