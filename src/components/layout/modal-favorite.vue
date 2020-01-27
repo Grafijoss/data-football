@@ -19,14 +19,19 @@
 						.media-content
 							.field
 								p.control
-									textarea.textarea(
-										placeholder="Add a comment..."
-										v-model="comment"
+									template(
+										v-if="typeModal === 'add'"
 									)
+										textarea.textarea(
+											placeholder="Add a comment..."
+											v-model="comment"
+										)
+									template(v-else)
+										p.title.is-5 {{ college.comment }}
 				.modal-card-foot
 					div.button.is-success(
 						v-on:click="addFavorite()"
-					) Add to favorites
+					) {{ typeModal === 'add' ?  'Add to favorites' : 'Remove to favorites'}}
 					div.button(
 						v-on:click="closeModal()"
 					) Cancel
@@ -37,7 +42,7 @@ import store from "store";
 
 export default {
   name: "modal-new",
-  props: ["college"],
+  props: ["college", "typeModal"],
   data() {
     return {
       comment: ""
@@ -52,14 +57,39 @@ export default {
   beforeDestroy() {},
   computed: {},
   methods: {
+    isFavorite(college) {
+      const favorites = store.get("favorites");
+      const favoritesExist = favorites && !!favorites.length;
+      const ifExist = item => item.id === college.id;
+      let existItem = null;
+      if (favoritesExist) {
+        existItem = favorites.findIndex(ifExist);
+      } else {
+        return false;
+      }
+      return {
+        exist: existItem !== -1,
+        index: existItem
+      };
+    },
     closeModal() {
       this.$bus.$emit("close-modal-favorite");
     },
     addFavorite() {
       let favorites = [];
-      let newFavorite = JSON.parse(JSON.stringify(this.college));
-      newFavorite["comment"] = this.comment;
-      favorites.push(newFavorite);
+      if (this.isFavorite(this.college).exist) {
+        console.log("entro aquiii");
+        console.log(this.isFavorite(this.college).index);
+        let stateFavorites = store.get("favorites");
+        console.log(stateFavorites);
+        stateFavorites.splice(this.isFavorite(this.college).index, 1);
+        favorites = stateFavorites;
+        console.log(favorites);
+      } else {
+        let newFavorite = JSON.parse(JSON.stringify(this.college));
+        newFavorite["comment"] = this.comment;
+        favorites.push(newFavorite);
+      }
       store.set("favorites", favorites);
       this.closeModal();
     }

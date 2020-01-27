@@ -14,6 +14,7 @@
 			)
 		template(v-if="showModal")
 			new-modal(
+				:typeModal="typeModal"
 				:college="infoModalSchool"
 			)
 </template>
@@ -33,7 +34,8 @@ export default {
       colleges: [],
       collegesFiltered: { searchQuery: "", collegesFiltered: [] },
       showModal: false,
-      infoModalSchool: null
+      infoModalSchool: null,
+      typeModal: "add"
     };
   },
   components: {
@@ -49,6 +51,12 @@ export default {
     this.getAllsColleges();
     this.$bus.$on("open-modal-favorite", school => {
       this.showModal = true;
+      this.typeModal = "add";
+      this.infoModalSchool = school;
+    });
+    this.$bus.$on("open-modal-delete", school => {
+      this.showModal = true;
+      this.typeModal = "delete";
       this.infoModalSchool = school;
     });
     this.$bus.$on("close-modal-favorite", () => {
