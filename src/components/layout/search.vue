@@ -34,7 +34,13 @@
 					v-on:click="clearQuery()"
 				)
 					i.icon-cross
-			.column.is-1.colssearch
+			.column.is-1.colssearch.colfavorites
+				.bt-favorites
+					i.iconfavorite(
+						:class="favorites.length > 0 ? 'icon-heart' : 'icon-heart-broken'"
+					)
+					.wrrp-num-favorites 
+						strong {{ favorites.length }}
 </template>
 
 <script>
@@ -71,8 +77,8 @@ export default {
     document.removeEventListener("keydown", this.fnClick, false);
   },
   computed: {
-    searchMessage() {
-      return `Encontrados: ${this.colleges.length}`;
+    favorites() {
+      return this.$store.state.favorites;
     }
   },
   methods: {
@@ -188,6 +194,35 @@ export default {
       transform: translateY(-50%);
       top: 50%;
       width: 50px;
+    }
+  }
+  &.colfavorites {
+    position: relative;
+    .bt-favorites {
+      color: #ccc;
+      font-size: 24px;
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      .icon-heart {
+        color: #00d1b2;
+      }
+    }
+    .wrrp-num-favorites {
+      background: #000;
+      bottom: -2px;
+      border-radius: 50%;
+      font-size: 10px;
+      height: 20px;
+      line-height: 20px;
+      position: absolute;
+      right: -12px;
+      text-align: center;
+      width: 20px;
+      strong {
+        color: #ccc;
+      }
     }
   }
 }
