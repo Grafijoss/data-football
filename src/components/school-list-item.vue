@@ -106,7 +106,8 @@ export default {
     border-top: solid 1px #ccc;
     height: 20px;
     margin-left: -2px;
-    padding-top: 10px;
+    margin-top: 5px;
+    padding-top: 5px;
     position: relative;
     width: calc(100% + 2px);
     // &::before {
