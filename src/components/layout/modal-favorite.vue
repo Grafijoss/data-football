@@ -90,9 +90,11 @@ export default {
         favorites = stateFavorites;
         console.log(favorites);
       } else {
+        let stateFavorites = JSON.parse(JSON.stringify(this.favorites));
         let newFavorite = JSON.parse(JSON.stringify(this.college));
         newFavorite["comment"] = this.comment;
-        favorites.push(newFavorite);
+        stateFavorites.push(newFavorite);
+        favorites = stateFavorites;
       }
       store.set("favorites", favorites);
       this.$store.commit("setfavorites", { favorites });
