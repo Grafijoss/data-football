@@ -1,7 +1,9 @@
 <template lang="pug">
 	section.wrrp-search
 		.columns
-			.column.is-1.colssearch.logo
+			.column.is-1.colssearch.logo(
+				v-on:click="goHome()"
+			)
 				strong D
 					span F
 			.column.is-1.colssearch.filter
@@ -37,6 +39,7 @@
 			.column.is-1.colssearch.colfavorites
 				.bt-favorites(
 						:class="favorites.length > 0 ? 'active' : ''"
+						v-on:click="goFavorites()"
 					)
 					i.iconfavorite(
 						:class="favorites.length > 0 ? 'icon-heart' : 'icon-heart-broken'"
@@ -81,9 +84,21 @@ export default {
   computed: {
     favorites() {
       return this.$store.state.favorites;
+    },
+    pathPage() {
+      return this.$route.path.replace("/", "");
     }
   },
   methods: {
+    goHome() {
+      if (this.pathPage !== "") this.$router.push({ name: "home" });
+    },
+    goFavorites() {
+      const favorites = !!this.favorites.length;
+      if (favorites && this.pathPage !== "favorites") {
+        this.$router.push({ name: "favorites" });
+      }
+    },
     clearQuery() {
       this.searchQuery = "";
     },
@@ -143,6 +158,7 @@ export default {
 
 .colssearch {
   &.logo {
+    cursor: pointer;
     font-size: 36px;
     line-height: 78px;
     padding: 0;

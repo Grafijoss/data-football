@@ -8,11 +8,15 @@ export default {
   name: "detail",
 
   data() {
-    return {};
+    return {
+      idCollege: null
+    };
   },
   components: {},
   computed: {},
-  created() {},
+  created() {
+    this.idCollege = this.$route.params.id;
+  },
   methods: {}
 };
 </script>

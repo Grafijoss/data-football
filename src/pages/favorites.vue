@@ -2,7 +2,7 @@
 	main
 		df-search(
 			v-model="collegesFiltered"
-			:colleges="colleges"
+			:colleges="favorites"
 		)
 		df-school-list(
 			:colleges="collegesFiltered.filter"
@@ -32,12 +32,12 @@ export default {
   computed: {
     favorites() {
       return this.$store.state.favorites;
-    },
-    colleges() {
-      return this.$store.state.colleges;
     }
   },
-  created() {},
+  created() {
+    console.log("estos son los paramasssss");
+    console.log(this.$route);
+  },
   methods: {}
 };
 </script>

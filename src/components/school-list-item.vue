@@ -31,8 +31,10 @@
 			nav.level.is-mobile.icons-item
 				.level-left
 					.level-item
-							span.icon.is-small
-								i.iconfavorite.icon-eye
+							span.icon.is-small(
+								v-on:click="goDetail(college)"
+							)
+								i.icon-eye
 					.level-item
 						span.icon.is-small
 							i.iconfavorite(
@@ -66,6 +68,9 @@ export default {
     }
   },
   methods: {
+    goDetail(college) {
+      this.$router.push({ name: "detail", params: { id: college.id } });
+    },
     favoriteFn(item) {
       const favorites = this.favorites;
       const typeModal = this.isFavorite(item).exist
@@ -155,10 +160,10 @@ export default {
     font-size: 18px;
     position: absolute;
     right: 15px;
-    .iconfavorite {
+    .icon {
       cursor: pointer;
       color: #00d1b2;
-      &.icon-heart-broken {
+      .icon-heart-broken {
         color: #cccccc;
       }
     }
