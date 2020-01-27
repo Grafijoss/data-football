@@ -12,10 +12,15 @@
 					article.media
 						figure.media-left
 							p.image.is-64x64
-								img(
-							:src="college.logos[0]"
-							ref="img_item"
-						)
+								template(v-if="!!college.logos && !!college.logos.length")
+									img(
+										:src="college.logos[0]"
+										ref="img_item"
+									)
+								template(v-else)
+									.noimg 
+										strong {{ college.school.substr(0,1) }}
+										strong {{ college.school.substr(1,1) }}
 						.media-content
 							.field
 								p.control
@@ -112,6 +117,20 @@ export default {
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
+  }
+  .image {
+    position: relative;
+    .noimg {
+      background: #ccc;
+      height: 64px;
+      left: 0;
+      line-height: 64px;
+      position: absolute;
+      text-align: center;
+      text-transform: uppercase;
+      top: 0;
+      width: 64px;
+    }
   }
 }
 </style>
