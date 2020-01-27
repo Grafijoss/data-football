@@ -118,7 +118,7 @@ export default {
             .indexOf(match.toLowerCase()) >= 0 && this.validateFilter(college)
         );
       });
-      this.$emit("input", fiterColleges);
+      this.$emit("input", { searchQuery: match, filter: fiterColleges });
     }
   }
 };

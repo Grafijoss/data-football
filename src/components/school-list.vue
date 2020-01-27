@@ -5,6 +5,7 @@
 			:college="c"
 			:key="c.id"
 		)
+	h2.title.is-5.title-noresult(v-else) No results
 </template>
 
 <script>
@@ -37,5 +38,9 @@ export default {
   .section {
     padding: 15px 1.5rem 2px;
   }
+}
+h2.title-noresult {
+  padding-top: 30px;
+  text-align: center;
 }
 </style>

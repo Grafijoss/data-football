@@ -4,9 +4,17 @@
 			v-model="collegesFiltered"
 			:colleges="colleges"
 		)
-		df-school-list(
-			:colleges="!!collegesFiltered.length ? collegesFiltered : colleges"
-		)
+		template(v-if="!!collegesFiltered.searchQuery.length")
+			df-school-list(
+				:colleges="collegesFiltered.filter"
+			)
+		template(v-else)
+			df-school-list(
+				:colleges="colleges"
+			)
+		//- df-school-list(
+		//- 	:colleges="!!collegesFiltered.searchQuery.length && !!collegesFiltered.filter.length ? collegesFiltered.filter : colleges"
+		//- )
 </template>
 
 <script>
@@ -21,7 +29,7 @@ export default {
     return {
       searchQuery: "",
       colleges: [],
-      collegesFiltered: []
+      collegesFiltered: { searchQuery: "", collegesFiltered: [] }
     };
   },
   components: {
