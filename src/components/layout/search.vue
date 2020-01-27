@@ -65,6 +65,7 @@ export default {
   },
   mounted() {
     document.addEventListener("click", this.fnClick, false);
+    this.getFilteredItems();
   },
   beforeDestroy() {
     document.removeEventListener("keydown", this.fnClick, false);
@@ -115,7 +116,8 @@ export default {
           college.school
             .toString()
             .toLowerCase()
-            .indexOf(match.toLowerCase()) >= 0 && this.validateFilter(college)
+            .indexOf(this.searchQuery.toLowerCase()) >= 0 &&
+          this.validateFilter(college)
         );
       });
       this.$emit("input", { searchQuery: match, filter: fiterColleges });
@@ -126,6 +128,7 @@ export default {
 
 <style lang="scss">
 .wrrp-search {
+  margin-bottom: 20px;
   padding: 20px;
   width: 100%;
 }

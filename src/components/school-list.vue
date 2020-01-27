@@ -1,10 +1,12 @@
 <template lang="pug">
-	.wrrp-list(v-if="!!colleges.length")
-		df-school-listItem(
+	.wrrp-list.columns(v-if="!!colleges.length")
+		.column.is-4(
 			v-for="(c, index) in colleges"
-			:college="c"
 			:key="c.id"
 		)
+			df-school-listItem(
+				:college="c"
+			)
 	h2.title.is-5.title-noresult(v-else) No results
 </template>
 
@@ -37,6 +39,13 @@ export default {
 .wrrp-list {
   .section {
     padding: 15px 1.5rem 2px;
+  }
+  &.columns {
+    display: block;
+    .column {
+      float: left;
+      height: 160px;
+    }
   }
 }
 h2.title-noresult {

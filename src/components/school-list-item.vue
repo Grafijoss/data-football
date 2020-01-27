@@ -1,41 +1,45 @@
 <template lang="pug">
 
-	section.section
-		article.media.box
-			figure.media-left
-				p.image.is-64x64
-					template(v-if="!!college.logos && !!college.logos.length")
-						img(
-							:src="college.logos[0]"
-							ref="img_item"
-						)
-					template(v-else)
-						.noimg 
-							strong {{ college.school.substr(0,1) }}
-							strong {{ college.school.substr(1,1) }}
-				.wrrp-colors-item
-					.color.color1(
-						:class="{'complete': !college.alt_color}"
-						:style="{background: college.color }"
+	article.media.box.item-school
+		figure.media-left
+			p.image.is-64x64
+				template(v-if="!!college.logos && !!college.logos.length")
+					img(
+						:src="college.logos[0]"
+						ref="img_item"
 					)
-					template(v-if="!!college.alt_color")
-						.color.color2(
-							:style="{background: college.alt_color }"
-						)
-			.media-content
-				.contentz
-					p 
-						strong {{ college.school }} 
-						small esta es la imagen {{ thereIsImage }} <br/> 
-						|Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
-				nav.level.is-mobile.icons-item
-					.level-left
-						.level-item
+				template(v-else)
+					.noimg 
+						strong {{ college.school.substr(0,1) }}
+						strong {{ college.school.substr(1,1) }}
+			.wrrp-colors-item
+				.color.color1(
+					:class="{'complete': !college.alt_color}"
+					:style="{background: college.color }"
+				)
+				template(v-if="!!college.alt_color")
+					.color.color2(
+						:style="{background: college.alt_color }"
+					)
+		.media-content
+			.content
+				p 
+					strong  {{ college.school }} <br/> 
+					small(
+						v-if="!!college.mascot"
+					) @{{ college.mascot }}
+			nav.level.is-mobile.icons-item
+				.level-left
+					.level-item
 							span.icon.is-small
-								i.iconfavorite(
-									:class="isFavorite(college).exist ? 'icon-heart' : 'icon-heart-broken'"
-									v-on:click="favoriteFn(college)"
-								)
+								i.iconfavorite.icon-eye
+					.level-item
+						span.icon.is-small
+							i.iconfavorite(
+								:class="isFavorite(college).exist ? 'icon-heart' : 'icon-heart-broken'"
+								v-on:click="favoriteFn(college)"
+							)
+					
 
 </template>
 
@@ -96,56 +100,67 @@ export default {
 </script>
 
 <style lang="scss">
-.wrrp-colors-item {
-  border-top: solid 1px #ccc;
-  height: 20px;
-  margin-left: -2px;
-  padding-top: 25px;
+.item-school {
   position: relative;
-  width: calc(100% + 2px);
-  &::before {
-    content: "Color";
-    font-size: 12px;
-    left: 0;
+  .wrrp-colors-item {
+    border-top: solid 1px #ccc;
+    height: 20px;
+    margin-left: -2px;
+    padding-top: 10px;
+    position: relative;
+    width: calc(100% + 2px);
+    // &::before {
+    //   content: "Color";
+    //   font-size: 12px;
+    //   left: 0;
+    //   position: absolute;
+    //   text-align: center;
+    //   top: 5px;
+    //   width: 100%;
+    // }
+    .color {
+      height: 25px;
+      float: left;
+      margin-left: 2px;
+      width: calc(50% - 2px);
+      &.color1 {
+        height: 20px;
+      }
+      &.color2 {
+        height: 20px;
+      }
+      &.complete {
+        width: 100%;
+      }
+    }
+  }
+  .image {
+    position: relative;
+    .noimg {
+      background: #ccc;
+      height: 64px;
+      left: 0;
+      line-height: 64px;
+      position: absolute;
+      text-align: center;
+      text-transform: uppercase;
+      top: 0;
+      width: 64px;
+    }
+  }
+  .icons-item {
+    bottom: 15px;
+    margin-top: 10px;
+    font-size: 18px;
     position: absolute;
-    text-align: center;
-    top: 5px;
-    width: 100%;
-  }
-  .color {
-    height: 25px;
-    float: left;
-    margin-left: 2px;
-    width: calc(50% - 2px);
-    &.color1 {
-      height: 20px;
+    right: 15px;
+    .iconfavorite {
+      cursor: pointer;
+      color: #00d1b2;
+      &.icon-heart-broken {
+        color: #cccccc;
+      }
     }
-    &.color2 {
-      height: 20px;
-    }
-    &.complete {
-      width: 100%;
-    }
-  }
-}
-.image {
-  position: relative;
-  .noimg {
-    background: #ccc;
-    height: 64px;
-    left: 0;
-    line-height: 64px;
-    position: absolute;
-    text-align: center;
-    text-transform: uppercase;
-    top: 0;
-    width: 64px;
-  }
-}
-.icons-item {
-  margin-top: 10px;
-  .iconfavorite {
-    color: red;
   }
 }
 </style>

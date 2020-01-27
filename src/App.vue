@@ -4,14 +4,9 @@
 			v-model="collegesFiltered"
 			:colleges="colleges"
 		)
-		template(v-if="!!collegesFiltered.searchQuery.length")
-			df-school-list(
-				:colleges="collegesFiltered.filter"
-			)
-		template(v-else)
-			df-school-list(
-				:colleges="colleges"
-			)
+		df-school-list(
+			:colleges="collegesFiltered.filter"
+		)
 		template(v-if="showModal")
 			new-modal(
 				:typeModal="typeModal"
