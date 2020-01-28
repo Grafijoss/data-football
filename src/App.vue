@@ -11,17 +11,11 @@
 <script>
 import store from "store";
 import collegesService from "./services/colleges";
-// import DfSearch from "./components/layout/search";
-// import DfSchoolList from "./components/school-list";
-
 export default {
   name: "app",
 
   data() {
     return {
-      // searchQuery: "",
-      // colleges: [],
-      // collegesFiltered: { searchQuery: "", collegesFiltered: [] },
       showModal: false,
       infoModalSchool: null,
       typeModal: "add"
@@ -75,7 +69,6 @@ export default {
 #app {
   padding: 10px;
 }
-
 .results {
   margin-top: 50px;
 }
