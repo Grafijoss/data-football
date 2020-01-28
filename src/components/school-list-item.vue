@@ -1,6 +1,8 @@
 <template lang="pug">
 
-	article.media.box.item-school
+	article.media.box.item-school(
+		:class="{ 'favorite': pathPage === 'favorites'}"
+	)
 		figure.media-left
 			p.image.is-64x64
 				template(v-if="!!college.logos && !!college.logos.length")
@@ -27,7 +29,11 @@
 					strong  {{ college.school }} <br/> 
 					small(
 						v-if="!!college.mascot"
-					) @{{ college.mascot }}
+					) @{{ college.mascot }} <br/> 
+					template(
+						v-if="pathPage === 'favorites'"
+					)
+						| {{ !!college.comment.length ? college.comment : 'No comment' | to-ellipsis }}
 			nav.level.is-mobile.icons-item
 				.level-left
 					.level-item
@@ -65,6 +71,9 @@ export default {
   computed: {
     favorites() {
       return this.$store.state.favorites;
+    },
+    pathPage() {
+      return this.$route.path.replace("/", "");
     }
   },
   methods: {
@@ -106,7 +115,11 @@ export default {
 
 <style lang="scss">
 .item-school {
+  height: 160px;
   position: relative;
+  &.favorite {
+    height: 268px;
+  }
   .wrrp-colors-item {
     border-top: solid 1px #ccc;
     height: 20px;
@@ -167,6 +180,10 @@ export default {
         color: #cccccc;
       }
     }
+  }
+  small {
+    color: #ccc;
+    line-height: 25px;
   }
 }
 </style>

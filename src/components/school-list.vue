@@ -7,6 +7,7 @@
 			df-school-listItem(
 				:college="c"
 			)
+		.clear
 	h2.title.is-5.title-noresult(v-else) No results
 </template>
 
@@ -41,10 +42,10 @@ export default {
     padding: 15px 1.5rem 2px;
   }
   &.columns {
+    margin-bottom: 30px;
     display: block;
     .column {
       float: left;
-      height: 160px;
     }
   }
 }

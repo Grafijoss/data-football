@@ -4,9 +4,10 @@
 			v-model="collegesFiltered"
 			:colleges="favorites"
 		)
-		df-school-list(
-			:colleges="collegesFiltered.filter"
-		)
+		.container
+			df-school-list(
+				:colleges="collegesFiltered.filter"
+			)
 </template>
 
 <script>
@@ -14,7 +15,7 @@ import DfSearch from "@/components/layout/search";
 import DfSchoolList from "@/components/school-list";
 
 export default {
-  name: "home",
+  name: "favorites",
 
   data() {
     return {

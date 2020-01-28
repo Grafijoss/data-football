@@ -4,9 +4,10 @@
 			v-model="collegesFiltered"
 			:colleges="colleges"
 		)
-		df-school-list(
-			:colleges="collegesFiltered.filter"
-		)
+		.container
+			df-school-list(
+				:colleges="collegesFiltered.filter"
+			)
 </template>
 
 <script>

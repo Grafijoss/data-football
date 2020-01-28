@@ -7,35 +7,9 @@
 				strong D
 					span F
 			.column.is-1.colssearch.filter
-				.dropdown( 
-					:class="{'is-active': isActiveFilter}"
-					ref="filter_dropdown"
-				)
-					.dropdown-trigger(
-						v-on:click="openFilter"
-					)
-						.button.is-info
-							span.icon.is-small
-								i.icon-filter
-					.dropdown-menu
-						.dropdown-content
-							a.dropdown-item(
-								v-for="(f, index) in filter"
-								:class="{'is-active': f.check}" 
-								:key="f.value"
-								v-on:click="checkFilter(index)"
-							) {{ f.value }}
+
 			.column.is-9.colssearch.colsearch
-				input.input.is-large(
-					type="text",
-					placeholder="Search college",
-					v-model="searchQuery"
-				)
-				.delete-query(
-					v-if="!!searchQuery.length"
-					v-on:click="clearQuery()"
-				)
-					i.icon-cross
+
 			.column.is-1.colssearch.colfavorites
 				.bt-favorites(
 						:class="favorites.length > 0 ? 'active' : ''"
@@ -50,40 +24,11 @@
 
 <script>
 export default {
-  name: "search",
-  props: ["colleges"],
+  name: "header",
   data() {
-    return {
-      searchQuery: "",
-      filteredItems: [],
-      isActiveFilter: false,
-      filter: [
-        {
-          value: "division",
-          check: false
-        },
-        {
-          value: "conference",
-          check: false
-        }
-      ]
-    };
+    return {};
   },
-  watch: {
-    searchQuery(val) {
-      this.getFilteredItems(val);
-    },
-    colleges() {
-      this.getFilteredItems();
-    }
-  },
-  mounted() {
-    document.addEventListener("click", this.fnClick, false);
-    this.getFilteredItems();
-  },
-  beforeDestroy() {
-    document.removeEventListener("keydown", this.fnClick, false);
-  },
+  mounted() {},
   computed: {
     favorites() {
       return this.$store.state.favorites;
@@ -101,52 +46,6 @@ export default {
       if (favorites && this.pathPage !== "favorites") {
         this.$router.push({ name: "favorites" });
       }
-    },
-    clearQuery() {
-      this.searchQuery = "";
-    },
-    fnClick(clickElement) {
-      let el = clickElement.toElement;
-      // const _this = this;
-      const wrrpdrp = this.$refs.filter_dropdown;
-      while (el.tagName !== "BODY") {
-        el = el.parentNode;
-        if (!el) return (this.isActiveFilter = false);
-        if (!!el && el === wrrpdrp) return false;
-        if (el.tagName === "BODY") this.isActiveFilter = false;
-      }
-    },
-    checkFilter(index) {
-      this.filter[index].check = !this.filter[index].check;
-      this.isActiveFilter = false;
-      this.getFilteredItems(this.searchQuery);
-    },
-    openFilter() {
-      this.isActiveFilter = true;
-    },
-    validateFilter(item) {
-      let filters = [];
-      this.filter.forEach(f => {
-        if (!f.check) {
-          filters.push(f.value);
-        } else {
-          let exist = !!item[f.value];
-          if (exist) filters.push(f.value);
-        }
-      });
-      return this.filter.length === filters.length;
-    },
-    getFilteredItems(match) {
-      let fiterColleges = this.colleges.filter(college => {
-        return (
-          college.school
-            .toString()
-            .toLowerCase()
-            .indexOf(this.searchQuery.toLowerCase()) >= 0 &&
-          this.validateFilter(college)
-        );
-      });
-      this.$emit("input", { searchQuery: match, filter: fiterColleges });
     }
   }
 };
