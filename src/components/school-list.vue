@@ -1,14 +1,16 @@
 <template lang="pug">
-	.wrrp-list.columns(v-if="!!colleges.length")
-		.column.is-4(
-			v-for="(c, index) in colleges"
-			:key="c.id"
-		)
-			df-school-listItem(
-				:college="c"
+.container
+		.wrrp-list.columns(v-if="!!colleges.length")
+			.column(
+				:class="pathPage === 'favorites' ? 'is-6' : 'is-4'"
+				v-for="(c, index) in colleges"
+				:key="c.id"
 			)
-		.clear
-	h2.title.is-5.title-noresult(v-else) No results
+				df-school-listItem(
+					:college="c"
+				)
+			.clear
+		h2.title.is-5.title-noresult(v-else) No results
 </template>
 
 <script>
@@ -28,8 +30,11 @@ export default {
   created() {
     this.collegesPrueba.push(this.colleges[0]);
   },
-  computed: {},
-
+  computed: {
+    pathPage() {
+      return this.$route.path.replace("/", "");
+    }
+  },
   methods: {
     search() {}
   }
@@ -43,9 +48,13 @@ export default {
   }
   &.columns {
     margin-bottom: 30px;
-    display: block;
+    @media screen and (min-width: 764px) {
+      display: block;
+    }
     .column {
-      float: left;
+      @media screen and (min-width: 764px) {
+        float: left;
+      }
     }
   }
 }

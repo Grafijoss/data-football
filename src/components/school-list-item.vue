@@ -118,7 +118,7 @@ export default {
   height: 160px;
   position: relative;
   &.favorite {
-    height: 268px;
+    height: 230px;
   }
   .wrrp-colors-item {
     border-top: solid 1px #ccc;
