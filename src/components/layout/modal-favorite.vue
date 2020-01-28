@@ -87,13 +87,9 @@ export default {
     addFavorite() {
       let favorites = [];
       if (this.isFavorite(this.college).exist) {
-        console.log("entro aquiii");
-        console.log(this.isFavorite(this.college).index);
         let stateFavorites = JSON.parse(JSON.stringify(this.favorites));
-        console.log(stateFavorites);
         stateFavorites.splice(this.isFavorite(this.college).index, 1);
         favorites = stateFavorites;
-        console.log(favorites);
       } else {
         let stateFavorites = JSON.parse(JSON.stringify(this.favorites));
         let newFavorite = JSON.parse(JSON.stringify(this.college));

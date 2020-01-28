@@ -1,52 +1,65 @@
 <template lang="pug">
 	main
 		df-header
-		section.hero.is-primary
-			.hero-body
-				.container
-					h1.title {{ infoDetail.school }}
-		.container.container-detail
-			.columns
-				.column.is-4
-					figure.image.is-square
-						img(
-							:src="infoDetail.logos[0]"
-						)
-					.wrrp-colors-item
-						.color.color1(
-							:class="{'complete': !infoDetail.alt_color}"
-							:style="{background: infoDetail.color }"
-						)
-						template(v-if="!!infoDetail.alt_color")
-							.color.color2(
-								:style="{background: infoDetail.alt_color }"
+		template(
+			v-if="!!infoDetail"
+		)
+			section.hero.is-primary
+				.hero-body
+					.container
+						h1.title {{ infoDetail.school }}
+			.container.container-detail
+				.columns
+					.column.is-4
+						figure.image.is-square
+							template(v-if="!!infoDetail.logos && !!infoDetail.logos.length")
+								img(
+									:src="infoDetail.logos[0]"
+								)
+							template(v-else)
+								.wrrp-no-img
+									img(
+										src="https://picsum.photos/400/400"
+									)
+									.noimg 
+										.letters
+											strong {{ infoDetail.school.substr(0,1) }}
+											strong {{ infoDetail.school.substr(1,1) }}
+						.wrrp-colors-item
+							.color.color1(
+								:class="{'complete': !infoDetail.alt_color}"
+								:style="{background: infoDetail.color }"
 							)
-				.column.is-8
-					ul.list-detail
-						li 
-							strong SCHOOL: 
-							| {{ !!infoDetail.school ? infoDetail.school : 'Does not have' }}
-						li 
-							strong ALTERNATIVE NAME: 
-							| {{ !!infoDetail.alt_name3 ? infoDetail.alt_name3 : 'Does not have' }}
-						li
-							strong MASCOT: 
-							| {{ !!infoDetail.mascotl ? infoDetail.mascotl : 'Does not have' }}
-						li
-							strong ABBREVIATION: 
-							| {{ !!infoDetail.abbreviationl ? infoDetail.abbreviationl : 'Does not have' }}
-						li
-							strong ABBREVIATION: 
-							| {{ !!infoDetail.abbreviationl ? infoDetail.abbreviationl : 'Does not have' }}
-						li
-							strong CONFERENCE: 
-							| {{ !!infoDetail.conferencel ? infoDetail.conferencel : 'Does not have' }}
-						li
-							strong DIVISION: 
-							| {{ !!infoDetail.division ? infoDetail.division : 'Does not have' }}
-						li
-							strong COMMENT: 
-							| {{ !!infoDetail.comment ? infoDetail.comment : 'Does not have' }}
+							template(v-if="!!infoDetail.alt_color")
+								.color.color2(
+									:style="{background: infoDetail.alt_color }"
+								)
+					.column.is-8
+						ul.list-detail
+							li 
+								strong SCHOOL: 
+								| {{ !!infoDetail.school ? infoDetail.school : 'Does not have' }}
+							li 
+								strong ALTERNATIVE NAME: 
+								| {{ !!infoDetail.alt_name3 ? infoDetail.alt_name3 : 'Does not have' }}
+							li
+								strong MASCOT: 
+								| {{ !!infoDetail.mascotl ? infoDetail.mascotl : 'Does not have' }}
+							li
+								strong ABBREVIATION: 
+								| {{ !!infoDetail.abbreviationl ? infoDetail.abbreviationl : 'Does not have' }}
+							li
+								strong ABBREVIATION: 
+								| {{ !!infoDetail.abbreviationl ? infoDetail.abbreviationl : 'Does not have' }}
+							li
+								strong CONFERENCE: 
+								| {{ !!infoDetail.conferencel ? infoDetail.conferencel : 'Does not have' }}
+							li
+								strong DIVISION: 
+								| {{ !!infoDetail.division ? infoDetail.division : 'Does not have' }}
+							li
+								strong COMMENT: 
+								| {{ !!infoDetail.comment ? infoDetail.comment : 'Does not have' }}
 </template>
 
 <script>
@@ -71,13 +84,13 @@ export default {
       return this.$store.state.colleges;
     }
   },
-  created() {
+  mounted() {
     this.getInfoCollege();
   },
 
   methods: {
     getInfoCollege() {
-      const idDetail = this.$route.params.id;
+      const idDetail = parseInt(this.$route.params.id, 10);
       const isFavorite = this.favorites.filter(favorite => {
         return favorite.id === idDetail;
       });
@@ -135,6 +148,34 @@ export default {
       }
       &.complete {
         width: 100%;
+      }
+    }
+  }
+  .wrrp-no-img {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0%;
+    width: 100%;
+    img {
+      width: 100%;
+    }
+    .noimg {
+      background: #ccc;
+      height: 100%;
+      left: 0;
+      line-height: 100%;
+      font-size: 100px;
+      position: absolute;
+      text-align: center;
+      text-transform: uppercase;
+      top: 0;
+      width: 100%;
+      .letters {
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
       }
     }
   }

@@ -35,10 +35,7 @@ export default {
       return this.$store.state.favorites;
     }
   },
-  created() {
-    console.log("estos son los paramasssss");
-    console.log(this.$route);
-  },
+  created() {},
   methods: {}
 };
 </script>

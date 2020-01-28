@@ -24,7 +24,7 @@
 
 <script>
 export default {
-  name: "header",
+  name: "df-header",
   data() {
     return {};
   },
