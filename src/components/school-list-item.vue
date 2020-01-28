@@ -115,10 +115,14 @@ export default {
 
 <style lang="scss">
 .item-school {
-  height: 160px;
   position: relative;
+  @media screen and (min-width: 764px) {
+    height: 160px;
+  }
   &.favorite {
-    height: 230px;
+    @media screen and (min-width: 764px) {
+      height: 230px;
+    }
   }
   .wrrp-colors-item {
     border-top: solid 1px #ccc;
@@ -128,15 +132,6 @@ export default {
     padding-top: 5px;
     position: relative;
     width: calc(100% + 2px);
-    // &::before {
-    //   content: "Color";
-    //   font-size: 12px;
-    //   left: 0;
-    //   position: absolute;
-    //   text-align: center;
-    //   top: 5px;
-    //   width: 100%;
-    // }
     .color {
       height: 25px;
       float: left;

@@ -132,7 +132,7 @@ export default {
     }
     .wrrp-num-favorites {
       background: #000;
-      bottom: -2px;
+      bottom: 5px;
       border-radius: 50%;
       font-size: 10px;
       height: 20px;

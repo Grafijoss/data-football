@@ -25,6 +25,16 @@
 								:key="f.value"
 								v-on:click="checkFilter(index)"
 							) {{ f.value }}
+			.column.is-1.colssearch.colfavorites
+				.bt-favorites(
+						:class="favorites.length > 0 ? 'active' : ''"
+						v-on:click="goFavorites()"
+					)
+					i.iconfavorite(
+						:class="favorites.length > 0 ? 'icon-heart' : 'icon-heart-broken'"
+					)
+					.wrrp-num-favorites 
+						strong {{ favorites.length }}
 			.column.is-9.colssearch.colsearch
 				input.input.is-large(
 					type="text",
@@ -36,16 +46,7 @@
 					v-on:click="clearQuery()"
 				)
 					i.icon-cross
-			.column.is-1.colssearch.colfavorites
-				.bt-favorites(
-						:class="favorites.length > 0 ? 'active' : ''"
-						v-on:click="goFavorites()"
-					)
-					i.iconfavorite(
-						:class="favorites.length > 0 ? 'icon-heart' : 'icon-heart-broken'"
-					)
-					.wrrp-num-favorites 
-						strong {{ favorites.length }}
+			
 </template>
 
 <script>
@@ -233,7 +234,7 @@ export default {
     }
     .wrrp-num-favorites {
       background: #000;
-      bottom: -2px;
+      bottom: 5px;
       border-radius: 50%;
       font-size: 10px;
       height: 20px;
