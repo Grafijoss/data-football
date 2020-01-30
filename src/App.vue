@@ -6,32 +6,36 @@
 				:typeModal="typeModal"
 				:college="infoModalSchool"
 			)
+		df-spinner(
+			v-if="spinner"
+		)
 </template>
 
 <script>
-import store from "store";
-import collegesService from "./services/colleges";
+import DfSpinner from "@/components/layout/spinner";
 export default {
   name: "app",
 
   data() {
     return {
+      spinner: false,
       showModal: false,
       infoModalSchool: null,
       typeModal: "add"
     };
   },
-  components: {},
+  components: { DfSpinner },
   computed: {
     collegesApp() {
       return this.$store.state.colleges;
     }
   },
   created() {
-    const favorites = store.get("favorites");
-    const favoritesExist = favorites && !!favorites.length;
-    if (favoritesExist) this.$store.commit("setfavorites", { favorites });
-    this.getAllsColleges();
+    this.spinner = true;
+    this.$store.dispatch("setCollegesAsync").then(() => {
+      this.spinner = false;
+    });
+    this.$store.dispatch("setFavoritesAsync");
     this.$bus.$on("open-modal-favorite", school => {
       this.showModal = true;
       this.typeModal = "add";
@@ -49,15 +53,7 @@ export default {
   },
   methods: {
     getAllsColleges() {
-      const colleges = store.get("colleges") && !!store.get("colleges").length;
-      if (colleges) {
-        this.$store.commit("setColleges", { colleges: store.get("colleges") });
-      } else {
-        collegesService.getAll().then(res => {
-          store.set("colleges", res);
-          this.$store.commit("setColleges", { colleges: res });
-        });
-      }
+      this.$store.dispatch("setCollegesAsync", []);
     }
   }
 };
